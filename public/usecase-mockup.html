@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UseCaseGrid Proposed Redesign</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: #f5f5f5; display: flex; justify-content: center; padding: 40px; }
+
+  /* ── Labels ── */
+  .label { font-size: 13px; color: #666; margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tag { display: inline-block; padding: 3px 10px; background: #e8ece9; border-radius: 4px; font-size: 11px; color: #00793A; font-weight: 600; margin-bottom: 16px; }
+
+  .comparison { display: flex; gap: 40px; flex-wrap: wrap; }
+
+  /* ── Card (Compact — proposed) ── */
+  .grid-proposed {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 1fr;
+    gap: 0;
+    width: 600px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    padding: 5px;
+    border-radius: 4px;
+  }
+  .card-proposed {
+    padding: 8px;
+    display: block;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    text-decoration: none;
+    color: inherit;
+    background: white;
+    transition: background 0.3s;
+    align-self: start;
+  }
+  .card-proposed:hover { background: #0F0F0E; color: white; }
+  .card-proposed:hover .num { color: #C5C3BA; }
+  .card-proposed:hover .title { color: white; }
+  .card-proposed:hover .link { color: #ffc107; }
+  .card-proposed:nth-child(3n) { border-right: none; }
+  .card-proposed:nth-child(n+4) { border-bottom: none; }
+
+  .num { font-size: 10px; color: #C5C3BA; letter-spacing: 1.5px; padding-bottom: 4px; }
+  .title { font-family: 'Georgia', serif; font-size: 14px; font-weight: 600; color: #0F0F0E; margin-bottom: 3px; }
+  .link { font-size: 10px; color: #00793A; letter-spacing: 1.5px; }
+
+  /* ── Card (Current — taller, stretched) ── */
+  .grid-current {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 1fr;
+    gap: 0;
+    width: 600px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+  }
+  .card-current {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    text-decoration: none;
+    color: inherit;
+    background: white;
+  }
+  .card-current:nth-child(3n) { border-right: none; }
+  .card-current:nth-child(n+4) { border-bottom: none; }
+
+  .num-c { font-size: 10px; color: #C5C3BA; letter-spacing: 1.5px; margin-bottom: auto; padding-bottom: 16px; }
+  .title-c { font-family: 'Georgia', serif; font-size: 15px; font-weight: 600; color: #0F0F0E; margin-bottom: 7px; }
+  .link-c { font-size: 10px; color: #00793A; letter-spacing: 1.5px; }
+
+  .divider { width: 1px; background: #ddd; align-self: stretch; }
+  .section-title { font-size: 24px; font-weight: 700; color: #00793A; margin-bottom: 8px; }
+  .section-sub { font-size: 12px; color: #999; margin-bottom: 20px; }
+  .pill { display: inline-block; padding: 2px 10px; background: rgba(0,121,58,0.08); border-radius: 12px; font-size: 10px; font-weight: 700; color: #00793A; letter-spacing: 1px; margin-bottom: 8px; }
+  .hint { font-size: 12px; color: #888; max-width: 600px; line-height: 1.6; margin-top: 20px; }
+  .hint span { background: #fff3cd; padding: 1px 4px; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div>
+  <div class="pill">UseCaseGrid — Proposed Changes</div>
+  <h1 class="section-title">Right Plywood for every purpose.</h1>
+  <p class="section-sub">3 × 2 grid · 5px wrapper padding · Compact cards (no stretching)</p>
+
+  <div class="comparison">
+
+    <!-- ── PROPOSED ── -->
+    <div>
+      <div class="tag">✅ Proposed (compact)</div>
+      <div class="grid-proposed">
+        <div class="card-proposed">
+          <div class="num">01</div>
+          <div class="title">Kitchen Cabinets</div>
+          <div class="link">View Products →</div>
+        </div>
+        <div class="card-proposed">
+          <div class="num">02</div>
+          <div class="title">Wardrobes</div>
+          <div class="link">View Products →</div>
+        </div>
+        <div class="card-proposed">
+          <div class="num">03</div>
+          <div class="title">Bathroom Vanities</div>
+          <div class="link">View Products →</div>
+        </div>
+        <div class="card-proposed">
+          <div class="num">04</div>
+          <div class="title">Office Furniture</div>
+          <div class="link">View Products →</div>
+        </div>
+        <div class="card-proposed">
+          <div class="num">05</div>
+          <div class="title">Commercial Interiors</div>
+          <div class="link">View Products →</div>
+        </div>
+        <div class="card-proposed">
+          <div class="num">06</div>
+          <div class="title">Hospitality</div>
+          <div class="link">View Products →</div>
+        </div>
+      </div>
+      <div class="hint">
+        <strong>Changes:</strong><br>
+        • Grid wrapper: <span>padding: 5px</span> (all sides)<br>
+        • Cards: <span>removed flex column</span> → natural content height, no stretching<br>
+        • Title: <span>14px</span> (was 15px) · <span>margin-bottom: 3px</span> (was 7px)<br>
+        • Padding: <span>8px</span> (was 18px) · Num padding-bottom: <span>4px</span> (was 16px)
+      </div>
+    </div>
+
+    <!-- ── CURRENT ── -->
+    <div>
+      <div class="tag">Current (taller/stretched)</div>
+      <div class="grid-current">
+        <div class="card-current">
+          <div class="num-c">01</div>
+          <div class="title-c">Kitchen Cabinets</div>
+          <div class="link-c">View Products →</div>
+        </div>
+        <div class="card-current">
+          <div class="num-c">02</div>
+          <div class="title-c">Wardrobes</div>
+          <div class="link-c">View Products →</div>
+        </div>
+        <div class="card-current">
+          <div class="num-c">03</div>
+          <div class="title-c">Bathroom Vanities</div>
+          <div class="link-c">View Products →</div>
+        </div>
+        <div class="card-current">
+          <div class="num-c">04</div>
+          <div class="title-c">Office Furniture</div>
+          <div class="link-c">View Products →</div>
+        </div>
+        <div class="card-current">
+          <div class="num-c">05</div>
+          <div class="title-c">Commercial Interiors</div>
+          <div class="link-c">View Products →</div>
+        </div>
+        <div class="card-current">
+          <div class="num-c">06</div>
+          <div class="title-c">Hospitality</div>
+          <div class="link-c">View Products →</div>
+        </div>
+      </div>
+      <div class="hint">
+        <strong>Current issues:</strong><br>
+        • Cards use <span>flex column + marginBottom:auto</span> → stretch to fill<br>
+        • Grid wrapper has <span>no padding</span><br>
+        • More spacing → rows overflow the section
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

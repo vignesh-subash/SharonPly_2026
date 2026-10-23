@@ -1,0 +1,33 @@
+/**
+ * SharonPly brand typography — licensed Swis 721 Condensed BT only.
+<<<<<<< HEAD
+ * Font files in public/fonts/:
+=======
+ * Place TrueType files in public/fonts/ (see public/fonts/README.md):
+>>>>>>> origin/main
+ *   - Swis721CnBT-Roman.ttf  (regular, 400)
+ *   - Swis721CnBT-Bold.ttf   (bold, 700)
+ */
+@font-face {
+  font-family: "Swis721 Cn BT";
+  src:
+    local("Swis721 Cn BT"),
+    local("Swiss 721 Condensed BT"),
+    local("Swis721 Cn BT Roman"),
+    url("/fonts/Swis721CnBT-Roman.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Swis721 Cn BT";
+  src:
+    local("Swis721 Cn BT Bold"),
+    local("Swiss 721 Condensed BT Bold"),
+    local("Swis721 Cn Bt Bold"),
+    url("/fonts/Swis721CnBT-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

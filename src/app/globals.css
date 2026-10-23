@@ -1,0 +1,698 @@
+@import "tailwindcss";
+@import "./swiss721.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #2d2d2d;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #2d2d2d;
+
+  --color-popover: #ffffff;
+  --color-popover-foreground: #2d2d2d;
+
+  --color-primary: #00793A;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #f7f5f0;
+  --color-secondary-foreground: #2d2d2d;
+
+  --color-muted: #f7f5f0;
+  --color-muted-foreground: #5a5a5a;
+
+  --color-accent: #ffc107;
+  --color-accent-foreground: #2d2d2d;
+
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #fafafa;
+
+  --color-border: #e8e4dc;
+  --color-input: #e8e4dc;
+  --color-ring: #00793A;
+
+  --color-chart-1: #00793A;
+  --color-chart-2: #ffc107;
+  --color-chart-3: #5a5a5a;
+  --color-chart-4: #25d366;
+  --color-chart-5: #f7f5f0;
+
+  --color-sidebar: #ffffff;
+  --color-sidebar-foreground: #2d2d2d;
+  --color-sidebar-primary: #00793A;
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: #f7f5f0;
+  --color-sidebar-accent-foreground: #00793A;
+  --color-sidebar-border: #e8e4dc;
+  --color-sidebar-ring: #00793A;
+
+  /* Sharon Ply brand palette */
+  --color-sharon-green: #00793A;
+  --color-sharon-green-dark: #005a2b;
+  --color-sharon-green-light: #e6f4ed;
+  --color-sharon-gold: #ffc107;
+  --color-sharon-gold-dark: #e5ac00;
+  --color-sharon-gold-light: #fff8e1;
+  --color-sharon-cream: #f7f5f0;
+  --color-sharon-warm-gray: #5a5a5a;
+  --color-sharon-dark: #2d2d2d;
+  --color-sharon-wood: #8B6914;
+  --color-sharon-wood-light: #d4a84b;
+  --color-whatsapp: #25d366;
+
+  --font-brand: "Swis721 Cn BT", sans-serif;
+  --font-sans: var(--font-brand);
+  --font-display: var(--font-brand);
+  --font-playfair: var(--font-brand);
+  --font-barlow-condensed: var(--font-brand);
+  --font-urbanist: var(--font-brand);
+
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+  --radius-full: 50px;
+
+    --animate-accordion-down: accordion-down 0.2s ease-out;
+    --animate-accordion-up: accordion-up 0.2s ease-out;
+    --animate-cta-pulse: cta-pulse 2s ease-in-out infinite;
+
+    @keyframes accordion-down {
+      from { height: 0; }
+      to { height: var(--radix-accordion-content-height); }
+    }
+    @keyframes accordion-up {
+      from { height: var(--radix-accordion-content-height); }
+      to { height: 0; }
+    }
+    @keyframes cta-pulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(0, 121, 58, 0.35); }
+      50% { box-shadow: 0 4px 32px rgba(0, 121, 58, 0.6), 0 0 0 6px rgba(0, 121, 58, 0.12); }
+    }
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border);
+  }
+
+  :root {
+    --background: #ffffff;
+    --foreground: #2d2d2d;
+    --card: #ffffff;
+    --card-foreground: #2d2d2d;
+    --popover: #ffffff;
+    --popover-foreground: #2d2d2d;
+    --primary: #00793A;
+    --primary-foreground: #ffffff;
+    --secondary: #f7f5f0;
+    --secondary-foreground: #2d2d2d;
+    --muted: #f7f5f0;
+    --muted-foreground: #5a5a5a;
+    --accent: #ffc107;
+    --accent-foreground: #2d2d2d;
+    --destructive: #ef4444;
+    --destructive-foreground: #fafafa;
+    --border: #e8e4dc;
+    --input: #e8e4dc;
+    --ring: #00793A;
+    --radius: 12px;
+    --font-playfair: var(--font-brand);
+    --font-display: var(--font-brand);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     CANONICAL IMAGE RATIOS
+     Every image slot must size itself from one of these, never from a
+     viewport height or a hard-coded pixel height. Height-driven slots
+     change ratio with the browser window, which makes it impossible to
+     supply a crop that is correct everywhere.
+     ═══════════════════════════════════════════════════════════════════ */
+  :root {
+    /* Page hero. Kept within a narrow 1.78–2.33 band so a single 21:9
+       master with a centred safe area crops correctly at all three. */
+    --ratio-hero: 16 / 9;
+    /* Content slots — identical at every breakpoint. */
+    --ratio-media: 16 / 9;   /* video thumbs, blog cards, coverage */
+    --ratio-card: 16 / 10;   /* product cards, category panels */
+    --ratio-product: 4 / 3;  /* product image viewer (object-contain) */
+    --ratio-tile: 1 / 1;     /* feature images, persona cards, sheets */
+    --ratio-doc: 3 / 4;      /* calendar covers, press clippings */
+  }
+
+  @media (min-width: 768px) {
+    :root { --ratio-hero: 2 / 1; }
+  }
+
+  @media (min-width: 1024px) {
+    :root { --ratio-hero: 21 / 9; }
+  }
+
+  /* Slot helpers — apply to the element that wraps the <img>. */
+  .slot-hero    { aspect-ratio: var(--ratio-hero);    }
+  .slot-media   { aspect-ratio: var(--ratio-media);   }
+  .slot-card    { aspect-ratio: var(--ratio-card);    }
+  .slot-product { aspect-ratio: var(--ratio-product); }
+  .slot-tile    { aspect-ratio: var(--ratio-tile);    }
+  .slot-doc     { aspect-ratio: var(--ratio-doc);     }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-sharon-dark);
+  }
+
+  .font-playfair,
+  .font-urbanist,
+  .font-mono {
+    font-family: var(--font-brand) !important;
+  }
+
+  .product-spec-table,
+  .product-spec-table th,
+  .product-spec-table td {
+    font-family: var(--font-brand);
+  }
+
+  /* ── Typography scale (CenturyPly-parity: H1 40-52px, H2 32-40px, H3 24-28px) ── */
+  h1, .text-hero {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+  }
+
+  h2, .text-section {
+    font-size: clamp(30px, 4vw, 42px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+
+  h3, .text-card-title {
+    font-size: clamp(20px, 2.2vw, 26px);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  h4 {
+    font-size: clamp(16px, 1.6vw, 20px);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  p, .text-body {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.75;
+    color: var(--color-sharon-warm-gray);
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1320px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Premium buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full px-7 py-3 font-sans font-semibold text-[15px] transition-all duration-300;
+    background: linear-gradient(135deg, #00793A, #005a2b);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 121, 58, 0.25);
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #005a2b, #004020);
+    box-shadow: 0 4px 16px rgba(0, 121, 58, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center rounded-full px-7 py-3 font-sans font-semibold text-[15px] transition-all duration-300;
+    background: linear-gradient(135deg, #ffc107, #e5ac00);
+    color: #2d2d2d;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+  }
+  .btn-gold:hover {
+    background: linear-gradient(135deg, #e5ac00, #cc9900);
+    box-shadow: 0 4px 16px rgba(255, 193, 7, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center rounded-full px-7 py-3 font-sans font-semibold text-[15px] transition-all duration-300 border-2;
+    border-color: #00793A;
+    color: #00793A;
+    background: transparent;
+  }
+  .btn-outline:hover {
+    background: #00793A;
+    color: #fff;
+  }
+
+  /* Card styles */
+  .card-premium {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e8e4dc;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+  .card-premium:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10), 0 4px 12px rgba(0,121,58,0.06);
+  }
+
+  /* Section label pill */
+  .section-label {
+    @apply inline-flex items-center rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider;
+    background: var(--color-sharon-green-light);
+    color: var(--color-sharon-green);
+  }
+
+  /* Wood grain texture overlay */
+  .wood-texture-overlay {
+    position: relative;
+  }
+  .wood-texture-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Warm gradient backgrounds (no pure black) */
+  .bg-warm-dark {
+    background: linear-gradient(135deg, #2d2d2d, #3d3530);
+  }
+  .bg-warm-section {
+    background: linear-gradient(180deg, #f7f5f0 0%, #ffffff 100%);
+  }
+  .bg-green-gradient {
+    background: linear-gradient(135deg, #00793A, #005a2b);
+  }
+}
+
+@layer utilities {
+  .text-sharon-green { color: #00793A; }
+  .text-sharon-gold { color: #ffc107; }
+  .bg-sharon-green { background-color: #00793A; }
+  .bg-sharon-gold { background-color: #ffc107; }
+  .bg-sharon-cream { background-color: #f7f5f0; }
+
+  /* ── Shared page container — aligns header, content, footer edges ── */
+  .page-container {
+    width: 100%;
+    max-width: 80rem; /* 1280px — matches max-w-7xl */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (min-width: 640px) {
+    .page-container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .page-container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* ── Spacing system (generous luxury-sparse feel) ── */
+  .section-padding {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+  .section-padding-sm {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  @media (max-width: 1024px) {
+    .section-padding {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .section-padding {
+      padding-top: 28px;
+      padding-bottom: 28px;
+    }
+    .section-padding-sm {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+  }
+
+  /* ── Navbar active underline hover ── */
+  .nav-item-link:hover .nav-underline,
+  .nav-item-btn:hover .nav-underline {
+    transform: scaleX(1) !important;
+  }
+
+  /* ── Card depth utilities ── */
+  .shadow-card {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+  }
+  .shadow-card-hover {
+    box-shadow: 0 16px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,121,58,0.07);
+  }
+  .shadow-card-wood {
+    box-shadow: 0 4px 16px rgba(139,105,20,0.12), 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  /* ── Wood-toned accents ── */
+  .bg-wood-subtle {
+    background: linear-gradient(135deg, #fdf8f0 0%, #f7f0e4 100%);
+  }
+  .border-wood {
+    border-color: #d4a84b;
+  }
+  .text-wood {
+    color: #8B6914;
+  }
+
+  .overlay-warm {
+    background: linear-gradient(to bottom, rgba(45, 45, 45, 0.1), rgba(45, 45, 45, 0.65));
+  }
+
+  .overlay-green {
+    background: linear-gradient(to bottom, rgba(0, 121, 58, 0.8), rgba(0, 90, 43, 0.9));
+  }
+
+  /* Gold underline accent for headings */
+  .heading-accent {
+    position: relative;
+    display: inline-block;
+  }
+  .heading-accent::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #ffc107, #e5ac00);
+    border-radius: 2px;
+  }
+
+  /* Scroll reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Global keyframes */
+@keyframes progressBar {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes ken-burns {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 8s ease-out forwards;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes veneerFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes veneerShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes veneerLabelFade {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes csrMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes dropFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes underlineGrow {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+/* ── Smooth scroll ── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Section reveal (fade-up on scroll) ── */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.section-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered delay variants */
+.section-reveal.delay-1 { transition-delay: 0.08s; }
+.section-reveal.delay-2 { transition-delay: 0.16s; }
+.section-reveal.delay-3 { transition-delay: 0.24s; }
+
+/* ── Homepage section scroll crossfade (used with GSAP ScrollTrigger) ── */
+.home-section {
+  position: relative;
+}
+
+
+@media (max-width: 768px) {
+  .home-section {
+    min-height: auto;
+  }
+}
+
+/* Blog article images - preserve left content */
+.blog-article-content img {
+  object-fit: cover;
+  object-position: left center;
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   HOMEPAGE — Full-page Scroll Snapping (Document-Level)
+   Activated via JS adding .homepage-snap-active to <html>
+   The sticky header sits outside the snap context but is accounted for
+   via scroll-margin-top on snap sections.
+   ═════════════════════════════════════════════════════════════════════ */
+
+html.homepage-snap-active {
+  scroll-snap-type: y mandatory;
+  /* sticky header height: 80px — handled via scroll-margin-top on .snap-section */
+  overflow-y: scroll;
+}
+
+/* First section (hero) — no padding; HeroCarousel sizes it to the space under the
+   header. Its scroll margin is the sticky header's height so the snap lands at the
+   top of the page with the banner below the header, not tucked behind it. */
+.homepage-snap-active .homepage-scroll-snap > section.snap-section:first-of-type {
+  scroll-margin-top: 65px;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  min-height: auto;
+}
+@media (min-width: 1024px) {
+  .homepage-snap-active .homepage-scroll-snap > section.snap-section:first-of-type {
+    scroll-margin-top: 121px;
+  }
+}
+
+/* Each snapped section */
+.homepage-snap-active .snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  scroll-margin-top: 80px; /* sticky header height */
+  min-height: calc(100vh - 80px);
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  /* Nav dots use position:fixed; right:24 — float over content without padding */
+  box-sizing: border-box;
+}
+
+/* Sections that should NOT get the emboss/fade treatment */
+.homepage-snap-active .snap-section.no-emboss {
+  /* no extra rules needed — just overrides the selector specificity */
+}
+
+/* Footer — visible as the last snap target on homepage */
+.homepage-snap-active footer {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: auto;
+}
+
+/* Force GSAP reveal classes off on the homepage (conflicts with snappping) */
+.homepage-snap-active .section-reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+
+/* Hide side nav dots on small screens */
+@media (max-width: 767px) {
+  .hp-snap-nav {
+    display: none !important;
+  }
+  .hp-snap-progress {
+    display: none !important;
+  }
+
+  /* Disable full-viewport scroll snapping on mobile — natural scroll is better */
+  html.homepage-snap-active {
+    scroll-snap-type: none;
+  }
+
+  .homepage-snap-active .snap-section {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+    scroll-margin-top: 0;
+    min-height: auto;
+    height: auto;
+  }
+
+  .homepage-snap-active .homepage-scroll-snap > section.snap-section:first-of-type {
+    min-height: auto;
+  }
+
+  .homepage-snap-active footer {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
+  /* About timeline — single column on mobile, icon centred above card */
+  .about-timeline-line {
+    display: none;
+  }
+
+  .about-timeline-item {
+    margin-bottom: 32px;
+    min-height: auto;
+  }
+
+  .about-timeline-icon {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 auto 16px !important;
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  .about-timeline-content {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+  }
+
+  /* Minimum 44px touch targets for small interactive controls */
+  .touch-target-mobile {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Standalone inline text CTAs (e.g. "EXPLORE ALL →", "ALL TESTIMONIALS") */
+  .inline-cta-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 10px;
+    gap: 6px;
+  }
+
+  .carousel-dot-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+}
+
+/* Spec tables (ProductDetailTemplate). The rounded frame draws the outer edge,
+   so drop the cells' outer borders and let the grid lines meet the frame cleanly
+   instead of being clipped at the corners. Unlayered so it beats Tailwind's
+   per-cell border utilities. */
+.spec-table-frame .product-spec-table tr > :first-child { border-left: 0; }
+.spec-table-frame .product-spec-table tr > :last-child { border-right: 0; }
+.spec-table-frame .product-spec-table thead tr:first-child > * { border-top: 0; }
+.spec-table-frame .product-spec-table tbody tr:last-child > * { border-bottom: 0; }
